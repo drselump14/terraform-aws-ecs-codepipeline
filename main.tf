@@ -446,26 +446,3 @@ resource "aws_codepipeline_webhook" "webhook" {
     match_equals = var.webhook_filter_match_equals
   }
 }
-
-provider "github" {
-  owner = var.repo_owner
-  token = var.github_webhooks_token
-}
-
-module "github_webhooks" {
-  source = "github.com/drselump14/terraform-github-repository-webhooks?ref=37a7bf1"
-
-  enabled              = module.this.enabled && var.webhook_enabled ? true : false
-  github_repositories  = [var.repo_name]
-  github_token         = var.github_webhooks_token
-  webhook_url          = local.webhook_url
-  webhook_secret       = local.webhook_secret
-  webhook_content_type = "json"
-  events               = var.github_webhook_events
-
-  context = module.this.context
-
-  providers = {
-    github = github
-  }
-}
