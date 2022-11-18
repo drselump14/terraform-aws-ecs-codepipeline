@@ -447,11 +447,15 @@ resource "aws_codepipeline_webhook" "webhook" {
   }
 }
 
+provider "github" {
+  owner = var.repo_owner
+  token = var.github_webhooks_token
+}
+
 module "github_webhooks" {
-  source = "github.com/drselump14/terraform-github-repository-webhooks?ref=7d9daa1"
+  source = "github.com/drselump14/terraform-github-repository-webhooks?ref=37a7bf1"
 
   enabled              = module.this.enabled && var.webhook_enabled ? true : false
-  github_organization  = var.repo_owner
   github_repositories  = [var.repo_name]
   github_token         = var.github_webhooks_token
   webhook_url          = local.webhook_url
