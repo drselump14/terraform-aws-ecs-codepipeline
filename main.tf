@@ -448,8 +448,7 @@ resource "aws_codepipeline_webhook" "webhook" {
 }
 
 module "github_webhooks" {
-  source  = "cloudposse/repository-webhooks/github"
-  version = "0.12.1"
+  source = "github.com/drselump14/terraform-github-repository-webhooks?ref=7d9daa1"
 
   enabled              = module.this.enabled && var.webhook_enabled ? true : false
   github_organization  = var.repo_owner
