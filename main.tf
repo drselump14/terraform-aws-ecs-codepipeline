@@ -466,8 +466,4 @@ module "github_webhooks" {
   events               = var.github_webhook_events
 
   context = module.this.context
-
-  providers = {
-    github = github
-  }
 }
