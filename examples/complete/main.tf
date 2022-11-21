@@ -44,7 +44,7 @@ module "container_definition" {
 
 module "ecs_alb_service_task" {
   source                             = "cloudposse/ecs-alb-service-task/aws"
-  version                            = "0.42.3"
+  version                            = "0.66.2"
   alb_security_group                 = module.vpc.vpc_default_security_group_id
   container_definition_json          = module.container_definition.json_map_encoded_list
   ecs_cluster_arn                    = aws_ecs_cluster.default.arn
