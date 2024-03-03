@@ -454,9 +454,8 @@ provider "github" {
 }
 
 module "github_webhooks" {
-  # source  = "cloudposse/repository-webhooks/github"
-  # version = "0.12.1"
-  source = "git::https://github.com/drselump14/terraform-github-repository-webhooks.git?ref=26b0cc9"
+  source  = "cloudposse/repository-webhooks/github"
+  version = "0.13.0"
 
   enabled              = module.this.enabled && var.webhook_enabled ? true : false
   github_repositories  = [var.repo_name]
