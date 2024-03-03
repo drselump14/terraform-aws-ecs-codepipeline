@@ -217,6 +217,7 @@ module "codebuild" {
   build_image                           = var.build_image
   build_compute_type                    = var.build_compute_type
   build_timeout                         = var.build_timeout
+  build_type                            = var.build_type
   buildspec                             = var.buildspec
   delimiter                             = module.this.delimiter
   attributes                            = ["build"]
@@ -445,6 +446,11 @@ resource "aws_codepipeline_webhook" "webhook" {
     json_path    = var.webhook_filter_json_path
     match_equals = var.webhook_filter_match_equals
   }
+}
+
+provider "github" {
+  token = var.github_webhooks_token
+  owner = var.repo_owner
 }
 
 module "github_webhooks" {
