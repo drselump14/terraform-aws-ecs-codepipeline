@@ -216,3 +216,15 @@ variable "codebuild_extra_policy_arns" {
   default     = []
   description = "List of ARNs of extra policies to attach to the CodeBuild role"
 }
+
+variable "codebuild_batch_enabled" {
+  type        = bool
+  default     = false
+  description = "Set to true to enable batch builds in the CodeBuild project. The CodeBuild project must also have batch builds enabled via its build_batch_config"
+}
+
+variable "codebuild_batch_combine_artifacts" {
+  type        = bool
+  default     = false
+  description = "Set to true to combine all build artifacts from a batch build into a single artifact. Only used when codebuild_batch_enabled is true"
+}

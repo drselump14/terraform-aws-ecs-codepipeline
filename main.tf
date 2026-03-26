@@ -212,8 +212,7 @@ data "aws_region" "default" {
 
 module "codebuild" {
   enabled                               = module.this.enabled
-  source                                = "cloudposse/codebuild/aws"
-  version                               = "2.0.2"
+  source                                = "github.com/drselump14/terraform-aws-codebuild?ref=feature/add_batch_config"
   build_type                            = var.build_type
   build_image                           = var.build_image
   build_compute_type                    = var.build_compute_type
@@ -236,6 +235,9 @@ module "codebuild" {
   secondary_artifact_encryption_enabled = var.secondary_artifact_encryption_enabled
   vpc_config                            = var.codebuild_vpc_config
   cache_bucket_suffix_enabled           = var.cache_bucket_suffix_enabled
+  batch_config = var.codebuild_batch_enabled ? {
+    combine_artifacts = var.codebuild_batch_combine_artifacts
+  } : null
 
   context = module.this.context
 }
@@ -310,9 +312,15 @@ resource "aws_codepipeline" "default" {
       input_artifacts  = ["code"]
       output_artifacts = ["task"]
 
-      configuration = {
-        ProjectName = module.codebuild.project_name
-      }
+      configuration = merge(
+        {
+          ProjectName = module.codebuild.project_name
+        },
+        var.codebuild_batch_enabled ? {
+          BatchEnabled     = "true"
+          CombineArtifacts = tostring(var.codebuild_batch_combine_artifacts)
+        } : {}
+      )
     }
   }
 
@@ -393,9 +401,15 @@ resource "aws_codepipeline" "bitbucket" {
       input_artifacts  = ["code"]
       output_artifacts = ["task"]
 
-      configuration = {
-        ProjectName = module.codebuild.project_name
-      }
+      configuration = merge(
+        {
+          ProjectName = module.codebuild.project_name
+        },
+        var.codebuild_batch_enabled ? {
+          BatchEnabled     = "true"
+          CombineArtifacts = tostring(var.codebuild_batch_combine_artifacts)
+        } : {}
+      )
     }
   }
 
