@@ -212,7 +212,7 @@ data "aws_region" "default" {
 
 module "codebuild" {
   enabled                               = module.this.enabled
-  source                                = "github.com/drselump14/terraform-aws-codebuild?ref=feature/add_batch_config"
+  source                                = "git::https://github.com/drselump14/terraform-aws-codebuild.git?ref=feature/add_batch_config"
   build_type                            = var.build_type
   build_image                           = var.build_image
   build_compute_type                    = var.build_compute_type
